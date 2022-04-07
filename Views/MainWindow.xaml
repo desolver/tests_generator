@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestsGenerator.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="512" Width="910"
+        Title="MainWindow"
+        MinHeight="512" MinWidth="910"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:models="clr-namespace:TestsGenerator.ViewModels"
+        xmlns:viewModels="clr-namespace:TestsGenerator.ViewModels"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -15,7 +18,11 @@
         Background="Transparent"
         FontFamily="{DynamicResource MaterialDesignFont}"
         WindowStyle="None"
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip">
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Window.DataContext>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -33,7 +40,11 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Border Grid.ColumnSpan="3" CornerRadius="5,5,0,0" Background="#0e0e0e">
+        <Border
+            Grid.ColumnSpan="3"
+            CornerRadius="5,5,0,0"
+            Background="#0e0e0e"
+            MouseLeftButtonDown="OnMouseLeftButtonDownOnOptionsPanel">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -53,7 +64,7 @@
                         BorderBrush="#11cd2a"
                         Height="13"
                         Width="13"
-                        Click="OnCollapseButtonClick">
+                        Click="OnCollapseButtonPressed">
                 </Button>
                 <Button
                     Grid.Column="3"
@@ -74,7 +85,7 @@
                         BorderBrush="#f95c4e"
                         Height="13"
                         Width="13"
-                        Click="OnExitButtonClick">
+                        Click="OnExitButtonPressed">
                 </Button>
             </Grid>
         </Border>
@@ -95,115 +106,271 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Row="1" Grid.Column="1">
-                    <materialDesign:Flipper
-                        Style="{StaticResource MaterialDesignCardFlipper}"
-                        materialDesign:ShadowAssist.ShadowDepth="Depth0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30*"/>
+                        <ColumnDefinition Width="10*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox ItemsSource="{Binding Tests}" SelectionChanged="OnTestSelected"
+                             VerticalAlignment="Top"
+                             materialDesign:ScrollViewerAssist.IsAutoHideEnabled="True">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <materialDesign:Card Width="300" Height="400">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="140" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Image
+                                            Source="Resources/Chartridge046_small.jpg"
+                                            Height="150"
+                                            Width="196"
+                                            Stretch="UniformToFill" />
+                                        <Button
+                                            Grid.Row="0"
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Margin="0 0 16 -20">
+                                            <materialDesign:PackIcon Kind="Pen" />
+                                        </Button>
+                                        <StackPanel
+                                            Grid.Row="1"
+                                            Margin="8 24 8 0">
+                                            <TextBlock FontWeight="Bold" Text="{Binding Name}"/>
+                                            <TextBlock
+                                                TextWrapping="Wrap"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Id}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </materialDesign:Card>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                    
+                    <materialDesign:Flipper Width="270" Height="336" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                            Style="{StaticResource MaterialDesignCardFlipper}"
+                                            materialDesign:ShadowAssist.ShadowDepth="Depth0">
                         <materialDesign:Flipper.FrontContent>
-                            <Grid Height="256" Width="200">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="160" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <materialDesign:ColorZone
-                                    Mode="PrimaryLight"
-                                    VerticalAlignment="Stretch">
-                                    <materialDesign:PackIcon
-                                        Kind="AccountCircle"
-                                        Height="128"
-                                        Width="128"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center" />
-                                </materialDesign:ColorZone>
-                                <StackPanel
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center">
-                                    <TextBlock
-                                        Text="James Willock" />
-                                    <Button
-                                        Style="{StaticResource MaterialDesignFlatButton}"
-                                        Command="{x:Static materialDesign:Flipper.FlipCommand}"
-                                        Margin="0 4 0 0"
-                                        Content="EDIT" />
-                                </StackPanel>
-                            </Grid>
+                            <Border CornerRadius="7" BorderThickness="3" Background="#252525">
+                                <Grid Height="256" Width="200">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="15" />
+                                        <RowDefinition Height="70" />
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="40" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="1"
+                                               Text="Добавление теста" TextAlignment="Center" Foreground="White" FontSize="18"/>
+                                    <Button Grid.Row="2"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Margin="0 4 0 0"
+                                            Content="Импорт из файла"
+                                            Foreground="#69cdf9"
+                                            Click="OnOpenFileButtonPressed">
+                                    </Button>
+                                    <Button Grid.Row="3"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                            Margin="0 4 0 0"
+                                            Foreground="#69cdf9"
+                                            Content="Добавление вручную" />
+                                </Grid>
+                            </Border>
                         </materialDesign:Flipper.FrontContent>
                         <materialDesign:Flipper.BackContent>
-                            <Grid
-                                Height="256"
-                                Width="200">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition
-                                        Height="Auto" />
-                                    <RowDefinition
-                                        Height="*" />
-                                </Grid.RowDefinitions>
-                                <materialDesign:ColorZone
-                                    Mode="SecondaryMid"
-                                    Padding="6">
-                                    <StackPanel
-                                        Orientation="Horizontal">
-                                        <Button
-                                            Style="{StaticResource MaterialDesignToolForegroundButton}"
-                                            Command="{x:Static materialDesign:Flipper.FlipCommand}"
-                                            HorizontalAlignment="Left">
-                                            <materialDesign:PackIcon
-                                                Kind="ArrowLeft"
-                                                HorizontalAlignment="Right" />
-                                        </Button>
-                                        <TextBlock
-                                            Margin="8 0 0 0"
-                                            VerticalAlignment="Center"
-                                            Text="EDIT USER" />
-                                    </StackPanel>
-                                </materialDesign:ColorZone>
-                                <Grid
-                                    Grid.Row="1"
-                                    Margin="0 6 0 0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Width="172">
+                            <Border CornerRadius="7" BorderThickness="3" Background="#252525">
+
+                                <Grid Height="316" Width="250">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
+                                        <RowDefinition Height="60" />
+                                        <RowDefinition Height="400"/>
                                     </Grid.RowDefinitions>
-                                    <TextBox
-                                        materialDesign:HintAssist.Hint="First name"
-                                        materialDesign:HintAssist.IsFloating="True"
-                                        Margin="0 12 0 0"
-                                        Text="James" />
-                                    <TextBox
-                                        Grid.Row="1"
-                                        materialDesign:HintAssist.Hint="Last name"
-                                        materialDesign:HintAssist.IsFloating="True"
-                                        Margin="0 12 0 0"
-                                        Text="Willock" />
-                                    <StackPanel
-                                        Grid.Row="2"
-                                        Orientation="Horizontal"
-                                        Margin="0 12 0 0"
-                                        HorizontalAlignment="Right">
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            Text="Email Contact" />
-                                        <ToggleButton
-                                            Margin="8 0 0 0" />
-                                    </StackPanel>
-                                    <StackPanel
-                                        Grid.Row="3"
-                                        Orientation="Horizontal"
-                                        Margin="0 12 0 0"
-                                        HorizontalAlignment="Right">
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            Text="Telephone Contact" />
-                                        <ToggleButton
-                                            Margin="8 0 0 0" />
-                                    </StackPanel>
+                                    <materialDesign:ColorZone
+                                        Background="#69cdf9"
+                                        Padding="6">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button
+                                                Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                                Command="{x:Static materialDesign:Flipper.FlipCommand}"
+                                                HorizontalAlignment="Left">
+                                                <materialDesign:PackIcon
+                                                    Kind="ArrowLeft"
+                                                    HorizontalAlignment="Right" />
+                                            </Button>
+                                            <TextBlock
+                                                Margin="8 0 0 0"
+                                                VerticalAlignment="Center"
+                                                Text="Добавление теста" />
+                                        </StackPanel>
+                                    </materialDesign:ColorZone>
+                                    <Grid Grid.Row="1"
+                                        Margin="0 6 0 0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Width="230">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.DataContext>
+                                            <viewModels:CreateTestViewModel />
+                                        </Grid.DataContext>
+
+                                        <TextBox Foreground="White"
+                                                 materialDesign:HintAssist.Hint="Название"
+                                                 materialDesign:HintAssist.IsFloating="True"
+                                                 Margin="0 12 0 0"
+                                                 Text="{Binding Name}"/>
+
+                                        <materialDesign:DialogHost Grid.Row="1" Margin="0 10 0 0" DialogTheme="Inherit"
+                                                                   DialogClosing="OnQuestionDialogClosed">
+                                            <materialDesign:DialogHost.DialogContent>
+                                                <materialDesign:DialogHost Margin="0 10 0 0" DialogTheme="Inherit"
+                                                                           DialogClosing="OnAnswerDialogClosed">
+                                                    <materialDesign:DialogHost.DialogContent>
+                                                        <StackPanel Margin="16">
+                                                            <StackPanel.DataContext>
+                                                                <viewModels:CreateAnswerViewModel/>
+                                                            </StackPanel.DataContext>
+
+                                                            <TextBlock Text="Новый вариант ответа" />
+                                                            <TextBox x:Name="AnswerText" Margin="0 8 0 0" HorizontalAlignment="Stretch"
+                                                                     Text="{Binding Text, Mode=TwoWay}"/>
+                                                            <CheckBox x:Name="IsAnswerCorrectCheckbox" Margin="0 8 0 0"
+                                                                      HorizontalAlignment="Stretch" Content="Верный"
+                                                                      IsChecked="{Binding IsCorrect, Mode=TwoWay}"/>
+                                                            <StackPanel Orientation="Horizontal"
+                                                                        HorizontalAlignment="Right">
+                                                                <Button
+                                                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                                                    IsDefault="True"
+                                                                    Margin="0 8 8 0"
+                                                                    Content="Добавить"
+                                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                                    CommandParameter="{Binding}">
+                                                                </Button>
+                                                                <Button
+                                                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                                                    IsCancel="True"
+                                                                    Margin="0 8 8 0"
+                                                                    Content="Отменить"
+                                                                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                                    CommandParameter="{Binding Text}">
+                                                                </Button>
+                                                            </StackPanel>
+                                                        </StackPanel>
+                                                    </materialDesign:DialogHost.DialogContent>
+                                                    <Grid MinHeight="400" MinWidth="400" MaxHeight="400" MaxWidth="400"
+                                                          Margin="0 -15 0 0">
+                                                        <Grid.DataContext>
+                                                            <viewModels:CreateQuestionViewModel/>
+                                                        </Grid.DataContext>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="Auto" />
+                                                            <RowDefinition Height="*" />
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+           
+                                                        <materialDesign:ColorZone Grid.Row="0"
+                                                            Background="#69cdf9"
+                                                            Effect="{DynamicResource MaterialDesignShadowDepth5}">
+                                                            <TextBlock Margin="16" Text="Добавление вопроса"/>
+                                                        </materialDesign:ColorZone>
+                  
+                                                        <TextBox Grid.Row="1"
+                                                                 materialDesign:HintAssist.Hint="Описание"
+                                                                 materialDesign:HintAssist.HelperTextFontSize="14"
+                                                                 materialDesign:HintAssist.IsFloating="True"
+                                                                 Margin="12 12 12 0"
+                                                                 FontSize="16"
+                                                                 Text="{Binding Text}"/>
+
+                                                        <ListBox x:Name="NewAnswersListBox" Grid.Row="2" Margin="0 10 0 0"/>
+
+                                                        <materialDesign:ColorZone
+                                                            Background="#69cdf9"
+                                                            Grid.Row="3">
+                                                            <TextBlock Margin="16" Text="Варианты ответов"/>
+                                                        </materialDesign:ColorZone>
+
+                                                        <Button Grid.Row="2"
+                                                                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                                                Background="#11cd2a"
+                                                                BorderBrush="#11cd2a"
+                                                                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                                                VerticalAlignment="Bottom"
+                                                                HorizontalAlignment="Right"
+                                                                Margin="0 0 60 -20"
+                                                                Content="{materialDesign:PackIcon Kind=Plus, Size=22}"/>
+                                                        <Button Grid.Row="2"
+                                                                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                                                IsCancel="True"
+                                                                VerticalAlignment="Bottom"
+                                                                HorizontalAlignment="Right"
+                                                                Background="#da65ff"
+                                                                BorderBrush="#da65ff"
+                                                                Margin="0 0 15 -20"
+                                                                Content="{materialDesign:PackIcon Kind=Check, Size=22}"
+                                                                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                                                                CommandParameter="{Binding}"/>
+                                                    </Grid>
+                                                </materialDesign:DialogHost>
+                                            </materialDesign:DialogHost.DialogContent>
+                                            <Border
+                                                BorderThickness="1"
+                                                BorderBrush="#69cdf9"
+                                                MinHeight="180"
+                                                ClipToBounds="True">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <ListBox x:Name="NewQuestionsListBox" Margin="0 10 0 0" Foreground="White"
+                                                             ItemsSource="{Binding Questions}"/>
+                                                    <materialDesign:ColorZone
+                                                        Background="#69cdf9"
+                                                        Grid.Row="1"
+                                                        Effect="{DynamicResource MaterialDesignShadowDepth5}">
+                                                        <TextBlock Margin="16" Text="Вопросы" />
+                                                    </materialDesign:ColorZone>
+                                                    <Button Grid.Row="0"
+                                                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                                        Background="#11cd2a"
+                                                        BorderBrush="#11cd2a"
+                                                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                                                        VerticalAlignment="Bottom"
+                                                        HorizontalAlignment="Right"
+                                                        Margin="0 0 60 -20"
+                                                        Content="{materialDesign:PackIcon Kind=Plus, Size=22}" />
+                                                    <Button Grid.Row="0"
+                                                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                                            Background="#da65ff"
+                                                            BorderBrush="#da65ff"
+                                                            Command="{x:Static models:CreateTestViewModel.CreateTestCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            VerticalAlignment="Bottom"
+                                                            HorizontalAlignment="Right"
+                                                            Margin="0 0 15 -20"
+                                                            Content="{materialDesign:PackIcon Kind=Check, Size=22}" />
+                                                </Grid>
+                                            </Border>
+                                        </materialDesign:DialogHost>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
+                            </Border>
                         </materialDesign:Flipper.BackContent>
                     </materialDesign:Flipper>
                 </Grid>
