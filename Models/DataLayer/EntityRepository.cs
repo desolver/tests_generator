@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -7,7 +8,7 @@ namespace TestsGenerator.Models.DataLayer
 {
     public class EntityRepository : IEntityRepository
     {
-        private const string DATABASE_PATH = "DataBase";
+        private const string DATABASE_PATH = "Database";
 
         public void Insert<T>(string entityId, T entity)
         {
@@ -21,8 +22,8 @@ namespace TestsGenerator.Models.DataLayer
         {
             var entitiesDirectory = GetEntitiesPath<T>();
 
-            if (Directory.Exists(entitiesDirectory))
-                Directory.CreateDirectory(entitiesDirectory);
+            if (!Directory.Exists(entitiesDirectory))
+                return Array.Empty<T>();
 
             return Directory
                 .GetFiles(entitiesDirectory)

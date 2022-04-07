@@ -13,10 +13,13 @@ namespace TestsGenerator.Models.DataLayer
             this.entityRepository = entityRepository;
         }
 
-        public void Create(IReadOnlyList<Question> newTestQuestions)
+        public Test Create(IReadOnlyList<Question> newTestQuestions)
         {
             var newTest = new Test(Guid.NewGuid(), newTestQuestions);
+
             entityRepository.Insert(newTest.Id.ToString(), newTest);
+
+            return newTest;
         }
 
         public Test? FindById(Guid testId)
