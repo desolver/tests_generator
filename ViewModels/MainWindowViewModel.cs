@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using JetBrains.Annotations;
 using TestsGenerator.Models;
 using TestsGenerator.Models.Processing;
 
 namespace TestsGenerator.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : ViewModelBase
     {
         private readonly ITestCreator testCreator;
 
@@ -18,12 +15,12 @@ namespace TestsGenerator.ViewModels
         {
             this.testCreator = testCreator;
             Tests = new ObservableCollection<Test>(existingTests);
+            CreateTestViewModel.NewTestAdded += CreateTestFromView;
         }
 
         public ObservableCollection<Test> Tests { get; }
-        public void AddTest(Test newTest) => Tests.Add(newTest);
 
-        public void ProcessFileOpen()
+        public void CreateTestFromFile()
         {
             var createdTestResult = testCreator.TryCreateFromFile();
 
@@ -31,14 +28,26 @@ namespace TestsGenerator.ViewModels
             {
                 AddTest(createdTestResult.Value);
             }
+            else
+            {
+                // ... error
+            }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private void AddTest(Test newTest) => Tests.Add(newTest);
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        private void CreateTestFromView(CreateTestViewModel newTest)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var createdTestResult = testCreator.TryCreateFromView(newTest);
+
+            if (createdTestResult.IsSuccess)
+            {
+                AddTest(createdTestResult.Value);
+            }
+            else
+            {
+                // ... error
+            }
         }
     }
 }

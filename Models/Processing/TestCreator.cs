@@ -1,7 +1,9 @@
+using System.IO;
 using FluentResults;
 using TestsGenerator.Extensions;
 using TestsGenerator.Models.DataLayer;
 using TestsGenerator.Models.FileSystem;
+using TestsGenerator.ViewModels;
 
 namespace TestsGenerator.Models.Processing
 {
@@ -18,11 +20,11 @@ namespace TestsGenerator.Models.Processing
 
         public Result<Test> TryCreateFromFile()
         {
-            var fileName = FileChooser.Choose();
-            if (fileName.IsNullOrEmpty())
+            var filePath = FileChooser.Choose();
+            if (filePath.IsNullOrEmpty())
                 return Result.Fail(string.Empty);
 
-            var fileContent = FileReader.ReadContent(fileName);
+            var fileContent = FileReader.ReadContent(filePath);
             if (fileContent.IsNullOrEmpty())
                 return Result.Fail(string.Empty);
 
@@ -30,7 +32,15 @@ namespace TestsGenerator.Models.Processing
             if (parseResult.IsFailed)
                 return parseResult.ToResult();
 
-            var createdTest = testRepository.Create(parseResult.Value);
+            var createdTest = testRepository.Create(Path.GetFileNameWithoutExtension(filePath), parseResult.Value);
+
+            return Result.Ok(createdTest);
+        }
+
+        public Result<Test> TryCreateFromView(CreateTestViewModel createTestViewModel)
+        {
+            var createdTest = testRepository.Create(
+                createTestViewModel.Name, createTestViewModel.Questions.MapToQuestionModel());
 
             return Result.Ok(createdTest);
         }

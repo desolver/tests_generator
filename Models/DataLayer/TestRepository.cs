@@ -13,9 +13,9 @@ namespace TestsGenerator.Models.DataLayer
             this.entityRepository = entityRepository;
         }
 
-        public Test Create(IReadOnlyList<Question> newTestQuestions)
+        public Test Create(string name, IReadOnlyList<Question> newTestQuestions)
         {
-            var newTest = new Test(Guid.NewGuid(), newTestQuestions);
+            var newTest = new Test(Guid.NewGuid(), name, newTestQuestions);
 
             entityRepository.Insert(newTest.Id.ToString(), newTest);
 

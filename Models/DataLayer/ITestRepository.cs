@@ -5,7 +5,7 @@ namespace TestsGenerator.Models.DataLayer
 {
     public interface ITestRepository
     {
-        Test Create(IReadOnlyList<Question> newTestQuestions);
+        Test Create(string name, IReadOnlyList<Question> newTestQuestions);
         Test? FindById(Guid testId);
         IReadOnlyList<Test> GetAll();
     }
