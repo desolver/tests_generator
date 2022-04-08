@@ -59,7 +59,11 @@ namespace TestsGenerator.Views
                 return;
 
             TestPopup.IsOpen = true;
-            SetTestPopupDataContext(new PassingTestViewModel(test, test.Questions[0].MapToQuestionViewModel(0)));
+
+            var randomizedTest = TestQuestionsRandomizer.Randomize(test);
+            SetTestPopupDataContext(new PassingTestViewModel(
+                randomizedTest, randomizedTest.Questions[0].MapToQuestionViewModel(0)));
+
             TestList.UnselectAll();
         }
 
