@@ -413,10 +413,11 @@
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*" />
-                            <RowDefinition Height="100" />
                             <RowDefinition Height="5*" />
                             <RowDefinition Height="5*" />
+                            <RowDefinition Height="10*" />
                             <RowDefinition Height="20*" />
+                            <RowDefinition Height="5*" />
                             <RowDefinition Height="5*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -448,6 +449,7 @@
                                    FontWeight="Bold"
                                    FontSize="28"
                                    HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
                                    Text="{Binding Question.Text}"/>
 
                         <ListBox Grid.Row="4" Grid.Column="1"
@@ -470,10 +472,10 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
 
-                        <materialDesign:Badged Grid.Row="4" Grid.Column="1"
-                                               Margin="0 0 90 30"
-                                               VerticalAlignment="Bottom"
-                                               HorizontalAlignment="Right"
+                        <materialDesign:Badged Grid.Row="5" Grid.Column="1"
+                                               Margin="0 0 90 0"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
                                                Badge="{materialDesign:PackIcon Heart}"
                                                BadgeColorZoneMode="SecondaryMid">
                             <Button
@@ -484,9 +486,8 @@
                                 CommandParameter="{Binding ElementName=UserAnswers, Path=Items}"/>
                         </materialDesign:Badged>
 
-                        <materialDesign:Badged Grid.Row="4" Grid.Column="1"
-                                               Margin="0 0 0 30"
-                                               VerticalAlignment="Bottom"
+                        <materialDesign:Badged Grid.Row="5" Grid.Column="1"
+                                               VerticalAlignment="Center"
                                                HorizontalAlignment="Right"
                                                Badge="{materialDesign:PackIcon Airplane}"
                                                BadgeColorZoneMode="SecondaryMid">
@@ -500,7 +501,7 @@
                         </materialDesign:Badged>
                     </Grid>
                 </Popup>
-                
+
                 <Popup Grid.Column="1" Grid.Row="1"
                        x:Name="InfoPopup"
                        Placement="Center"
