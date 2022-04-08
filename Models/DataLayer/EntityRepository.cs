@@ -12,7 +12,7 @@ namespace TestsGenerator.Models.DataLayer
 
         public void Insert<T>(string entityId, T entity)
         {
-            var savePath = GetSavePath<T>(entityId);
+            var savePath = GetEntityPath<T>(entityId);
             var json = JsonSerializer.Serialize(entity);
 
             File.WriteAllText(savePath, json);
@@ -32,7 +32,17 @@ namespace TestsGenerator.Models.DataLayer
                 .ToList()!;
         }
 
+        public void Delete<T>(string entityId)
+        {
+            var entityPath = GetEntityPath<T>(entityId);
+
+            if (!File.Exists(entityPath))
+                return;
+
+            File.Delete(entityPath);
+        }
+
         private static string GetEntitiesPath<T>() => Path.Combine(DATABASE_PATH, typeof(T).Name);
-        private static string GetSavePath<T>(string entityId) => Path.Combine(DATABASE_PATH, typeof(T).Name, entityId);
+        private static string GetEntityPath<T>(string entityId) => Path.Combine(DATABASE_PATH, typeof(T).Name, entityId);
     }
 }

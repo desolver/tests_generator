@@ -96,5 +96,13 @@ namespace TestsGenerator.Views
 
             PassingTestViewModel.NextAnswerButtonPressed += model => SetTestPopupDataContext(model.GoToNextQuestion());
         }
+
+        private void OnDeleteTestButtonPressed(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button { Tag: Guid testId })
+                return;
+
+            ViewModel.DeleteTest(testId);
+        }
     }
 }

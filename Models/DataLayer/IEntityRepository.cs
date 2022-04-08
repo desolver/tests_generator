@@ -6,5 +6,6 @@ namespace TestsGenerator.Models.DataLayer
     {
         void Insert<T>(string entityId, T entity);
         IReadOnlyList<T> GetAll<T>();
+        void Delete<T>(string entityId);
     }
 }

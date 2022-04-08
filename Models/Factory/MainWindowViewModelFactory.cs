@@ -20,7 +20,7 @@ namespace TestsGenerator.Models.Factory
         {
             var existingTests = testRepository.GetAll();
 
-            return new MainWindowViewModel(existingTests.ToList(), testCreator);
+            return new MainWindowViewModel(existingTests.ToList(), testCreator, testRepository);
         }
     }
 }

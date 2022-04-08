@@ -28,5 +28,7 @@ namespace TestsGenerator.Models.DataLayer
                 .FirstOrDefault(test => test.Id == testId);
 
         public IReadOnlyList<Test> GetAll() => entityRepository.GetAll<Test>();
+
+        public void Delete(Guid testId) => entityRepository.Delete<Test>(testId.ToString());
     }
 }
