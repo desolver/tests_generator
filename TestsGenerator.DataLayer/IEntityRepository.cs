@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TestsGenerator.Models.DataLayer
+namespace TestsGenerator.DataLayer
 {
     public interface IEntityRepository
     {

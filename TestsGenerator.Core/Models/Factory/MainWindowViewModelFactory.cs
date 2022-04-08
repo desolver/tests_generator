@@ -1,5 +1,5 @@
 using System.Linq;
-using TestsGenerator.Models.DataLayer;
+using TestsGenerator.DataLayer;
 using TestsGenerator.Models.Processing;
 using TestsGenerator.ViewModels;
 

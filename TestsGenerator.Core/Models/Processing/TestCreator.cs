@@ -1,7 +1,7 @@
 using System.IO;
 using FluentResults;
+using TestsGenerator.DataLayer;
 using TestsGenerator.Extensions;
-using TestsGenerator.Models.DataLayer;
 using TestsGenerator.Models.FileSystem;
 using TestsGenerator.ViewModels;
 

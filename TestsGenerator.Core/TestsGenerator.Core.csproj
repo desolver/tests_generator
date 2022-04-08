@@ -5,6 +5,7 @@
         <TargetFramework>net5.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
+        <RootNamespace>TestsGenerator</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,6 +26,10 @@
       <Compile Update="Views\MainWindow.Events.xaml.cs">
         <DependentUpon>MainWindow.xaml</DependentUpon>
       </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TestsGenerator.DataLayer\TestsGenerator.DataLayer.csproj" />
     </ItemGroup>
 
 </Project>

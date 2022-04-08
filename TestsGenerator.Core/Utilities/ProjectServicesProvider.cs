@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using TestsGenerator.Models.DataLayer;
+using TestsGenerator.DataLayer;
 using TestsGenerator.Models.Factory;
 using TestsGenerator.Models.Processing;
 

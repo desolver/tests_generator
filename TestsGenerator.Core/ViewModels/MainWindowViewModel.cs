@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using TestsGenerator.DataLayer;
 using TestsGenerator.Models;
-using TestsGenerator.Models.DataLayer;
 using TestsGenerator.Models.Processing;
 
 namespace TestsGenerator.ViewModels

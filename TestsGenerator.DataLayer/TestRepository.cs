@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TestsGenerator.Models;
 
-namespace TestsGenerator.Models.DataLayer
+namespace TestsGenerator.DataLayer
 {
     public class TestRepository : ITestRepository
     {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace TestsGenerator.Models.DataLayer
+namespace TestsGenerator.DataLayer
 {
     public class EntityRepository : IEntityRepository
     {

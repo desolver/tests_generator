@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using TestsGenerator.Models;
 
-namespace TestsGenerator.Models.DataLayer
+namespace TestsGenerator.DataLayer
 {
     public interface ITestRepository
     {
