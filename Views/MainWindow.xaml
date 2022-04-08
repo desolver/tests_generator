@@ -406,7 +406,7 @@
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="100" />
                             <RowDefinition Height="5*" />
-                            <RowDefinition Height="10*" />
+                            <RowDefinition Height="5*" />
                             <RowDefinition Height="20*" />
                             <RowDefinition Height="5*" />
                         </Grid.RowDefinitions>
@@ -435,7 +435,7 @@
                                      Maximum="100"/>
 
                         <TextBlock Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
-                                   Margin="0 20 0 -20"
+                                   Margin="0 20 0 -10"
                                    FontWeight="Bold"
                                    FontSize="28"
                                    HorizontalAlignment="Left"
@@ -462,7 +462,7 @@
                         </ListBox>
 
                         <materialDesign:Badged Grid.Row="4" Grid.Column="1"
-                                               Margin="0 -40 90 0"
+                                               Margin="0 0 90 30"
                                                VerticalAlignment="Bottom"
                                                HorizontalAlignment="Right"
                                                Badge="{materialDesign:PackIcon Heart}"
@@ -476,6 +476,7 @@
                         </materialDesign:Badged>
 
                         <materialDesign:Badged Grid.Row="4" Grid.Column="1"
+                                               Margin="0 0 0 30"
                                                VerticalAlignment="Bottom"
                                                HorizontalAlignment="Right"
                                                Badge="{materialDesign:PackIcon Airplane}"

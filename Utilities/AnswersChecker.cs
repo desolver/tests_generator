@@ -8,7 +8,7 @@ namespace TestsGenerator.Utilities
     {
         public static IReadOnlyList<AnswerViewModel> GetIncorrectAnswers(IEnumerable<AnswerViewModel> answers)
             => answers
-                .Where(a => !a.IsCorrect && a.IsUserChecked || a.IsCorrect && !a.IsUserChecked)
+                .Where(a => !a.IsCorrect && a.IsUserChecked)
                 .ToArray();
     }
 }

@@ -87,7 +87,7 @@ namespace TestsGenerator.Views
                 foreach (var answer in incorrectAnswers)
                     answer.ViewColor = ColorHelper.WRONG_ANSWER_COLOR;
 
-                foreach (var answer in answers.Where(a => !incorrectAnswers.Contains(a)))
+                foreach (var answer in answers.Where(a => !incorrectAnswers.Contains(a) && a.IsCorrect))
                     answer.ViewColor = ColorHelper.CORRECT_ANSWER_COLOR;
 
                 foreach (var answer in answers)
