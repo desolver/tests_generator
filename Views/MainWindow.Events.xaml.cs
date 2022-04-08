@@ -70,7 +70,7 @@ namespace TestsGenerator.Views
         private void SetTestPopupDataContext(PassingTestViewModel passingTestViewModel)
             => TestPopup.DataContext = passingTestViewModel;
 
-        private void OnClosePopupButtonPressed(object sender, RoutedEventArgs e) => TestPopup.IsOpen = false;
+        private void OnCloseTestPopupButtonPressed(object sender, RoutedEventArgs e) => TestPopup.IsOpen = false;
 
         private void BindTestPopupEvents()
         {
@@ -97,6 +97,16 @@ namespace TestsGenerator.Views
             PassingTestViewModel.NextAnswerButtonPressed += model => SetTestPopupDataContext(model.GoToNextQuestion());
         }
 
+        private void BindInfoPopupEvents()
+        {
+            LocationChanged += (_, _) => 
+            {
+                var offset = InfoPopup.HorizontalOffset;
+                InfoPopup.HorizontalOffset = offset + 1;
+                InfoPopup.HorizontalOffset = offset;
+            };
+        }
+
         private void OnDeleteTestButtonPressed(object sender, RoutedEventArgs e)
         {
             if (sender is not Button { Tag: Guid testId })
@@ -104,5 +114,9 @@ namespace TestsGenerator.Views
 
             ViewModel.DeleteTest(testId);
         }
+
+        private void OnInfoButtonPressed(object sender, RoutedEventArgs e) => InfoPopup.IsOpen = !InfoPopup.IsOpen;
+
+        private void OnCloseInfoPopupButtonPressed(object sender, RoutedEventArgs e) => InfoPopup.IsOpen = false;
     }
 }

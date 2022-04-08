@@ -22,6 +22,7 @@ namespace TestsGenerator.Views
             DataContext = ViewModel;
 
             BindTestPopupEvents();
+            BindInfoPopupEvents();
         }
     }
 }

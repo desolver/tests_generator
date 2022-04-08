@@ -46,6 +46,8 @@
             MouseLeftButtonDown="OnMouseLeftButtonDownOnOptionsPanel">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="15" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="15" />
                     <ColumnDefinition Width="7" />
@@ -54,8 +56,17 @@
                     <ColumnDefinition Width="15" />
                     <ColumnDefinition Width="7" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="CollapseButton"
-                        Grid.Column="1"
+                <Button Grid.Column="1"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="White"
+                        BorderBrush="White"
+                        Height="13"
+                        Width="13"
+                        Click="OnInfoButtonPressed">
+                </Button>
+                <Button Grid.Column="3"
                         Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -66,7 +77,7 @@
                         Click="OnCollapseButtonPressed">
                 </Button>
                 <Button
-                    Grid.Column="3"
+                    Grid.Column="5"
                     Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -75,8 +86,7 @@
                     Height="13"
                     Width="13">
                 </Button>
-                <Button x:Name="ExitButton"
-                        Grid.Column="5"
+                <Button Grid.Column="7"
                         Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -168,7 +178,6 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                     </ListBox>
-                    
                     <materialDesign:Flipper Width="270" Height="336" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top"
                                             Style="{StaticResource MaterialDesignCardFlipper}"
                                             materialDesign:ShadowAssist.ShadowDepth="Depth0">
@@ -425,7 +434,7 @@
                             HorizontalAlignment="Right"
                             Margin="0 0 10 0"
                             Content="{materialDesign:PackIcon Kind=Close, Size=22}"
-                            Click="OnClosePopupButtonPressed" />
+                            Click="OnCloseTestPopupButtonPressed" />
 
                         <ProgressBar Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                                      Margin="0 -20 0 0"
@@ -489,6 +498,139 @@
                                 CommandParameter="{Binding}"
                                 />
                         </materialDesign:Badged>
+                    </Grid>
+                </Popup>
+                
+                <Popup Grid.Column="1" Grid.Row="1"
+                       x:Name="InfoPopup"
+                       Placement="Center"
+                       AllowsTransparency="True"
+                       PlacementTarget="{Binding ElementName=MainGrid}"
+                       IsOpen="True"
+                       PopupAnimation="Scroll">
+
+                    <Grid Width="{Binding ElementName=MainGrid, Path=ActualWidth}"
+                          Height="{Binding ElementName=MainGrid, Path=ActualHeight}"
+                          Background="White">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15" />
+                            <RowDefinition Height="85" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="15" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="15*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Row="1" Grid.Column="1" 
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                            Background="#f95c4e"
+                            BorderBrush="#f95c4e"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            Margin="0 0 -30 0"
+                            Content="{materialDesign:PackIcon Kind=Close, Size=22}"
+                            Click="OnCloseInfoPopupButtonPressed" />
+
+                        <ScrollViewer Grid.Row="2" Grid.Column="1" VerticalScrollBarVisibility="Hidden">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="70"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="90"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="90"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    FontSize="28"
+                                    Text="Инструкция по импорту тестов из файла"
+                                    TextAlignment="Center"/>
+                                <TextBlock Grid.Row="1"
+                                           Text="1. Нажмите кнопку 'Импорт из файла' на главном экране"
+                                           TextWrapping="WrapWithOverflow"
+                                           FontSize="18"/>
+                                <TextBlock Grid.Row="1"
+                                           Margin="0 45 0 0"
+                                           Text="2. Выберите файл с разметкой теста (название файла станет названием теста)"
+                                           TextWrapping="WrapWithOverflow"
+                                           FontSize="18"/>
+                                <TextBlock Grid.Row="1"
+                                           Margin="0 90 0 0"
+                                           Text="3. Разметка в файле должна соответствовать требованиям"
+                                           TextWrapping="WrapWithOverflow"
+                                           FontSize="18"/>
+
+                                <TextBlock Grid.Row="2"
+                                           FontWeight="Bold"
+                                           FontSize="28"
+                                           TextWrapping="WrapWithOverflow"
+                                           TextAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="Требования к разметке теста в файле"/>
+                                <TextBlock Grid.Row="3"
+                                           Text="1. Тесты отделяются друг от друга пустой строкой, внутри теста пустые строки не допускаются"
+                                           TextWrapping="WrapWithOverflow"
+                                           FontSize="18" />
+                                <TextBlock Grid.Row="3"
+                                           Margin="0 45 0 0"
+                                           Text="2. Каждый вариант ответа должен находиться на новой строке"
+                                           TextWrapping="WrapWithOverflow"
+                                           FontSize="18" />
+                                <TextBlock Grid.Row="3"
+                                           Margin="0 90 0 0"
+                                           Text="3. Правильные ответы начинаются со знака '+', неправильные - со знака '-'"
+                                           TextWrapping="WrapWithOverflow"
+                                           FontSize="18" />
+
+                                <TextBlock Grid.Row="4"
+                                           FontWeight="Bold"
+                                           FontSize="28"
+                                           TextWrapping="WrapWithOverflow"
+                                           TextAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Text="Пример разметки" />
+
+                                <Border Grid.Row="5" BorderBrush="Gray" BorderThickness="1">
+                                    <Grid>
+                                        <TextBlock Text="Что находится на материнской плате?"
+                                                   FontSize="18" />
+                                        <TextBlock Margin="0 20 0 0"
+                                                   Text="- винчестер"
+                                                   FontSize="18" />
+                                        <TextBlock Margin="0 40 0 0"
+                                                   Text="+ процессор"
+                                                   FontSize="18" />
+                                        <TextBlock Margin="0 60 0 0"
+                                                   Text="- монитор"
+                                                   FontSize="18" />
+                                        <TextBlock Margin="0 80 0 0"
+                                                   Text="+ слоты расширения"
+                                                   FontSize="18" />
+                                        <TextBlock Margin="0 100 0 0"
+                                                   Text="                            "
+                                                   FontSize="18" />
+                                        <TextBlock Margin="0 120 0 0"
+                                                   Text="Что такое винчестер?"
+                                                   FontSize="18" />
+                                        <TextBlock Margin="0 140 0 0"
+                                                   Text="- карабин"
+                                                   FontSize="18" />
+                                        <TextBlock Margin="0 160 0 0"
+                                                   Text="+ жесткий диск"
+                                                   FontSize="18" />
+                                        <TextBlock Margin="0 180 0 0"
+                                                   Text="- винтовка"
+                                                   FontSize="18" />
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </ScrollViewer>
                     </Grid>
                 </Popup>
             </Grid>
