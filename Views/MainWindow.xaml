@@ -506,7 +506,7 @@
                        Placement="Center"
                        AllowsTransparency="True"
                        PlacementTarget="{Binding ElementName=MainGrid}"
-                       IsOpen="True"
+                       IsOpen="False"
                        PopupAnimation="Scroll">
 
                     <Grid Width="{Binding ElementName=MainGrid, Path=ActualWidth}"

@@ -39,7 +39,7 @@ namespace TestsGenerator.ViewModels
             Question = question;
             QuestionsCount = test.Questions.Count;
             CurrentQuestionIndex = question.Index;
-            ProgressPercent = currentQuestionIndex / QuestionsCount;
+            ProgressPercent = (int) (currentQuestionIndex / (float) (QuestionsCount - 1) * 100);
         }
 
         public static RelayCommand CheckAnswers => new(
