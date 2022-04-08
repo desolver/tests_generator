@@ -1,8 +1,9 @@
 using System.Linq;
 using TestsGenerator.Models.DataLayer;
 using TestsGenerator.Models.Processing;
+using TestsGenerator.ViewModels;
 
-namespace TestsGenerator.ViewModels.Factory
+namespace TestsGenerator.Models.Factory
 {
     public class MainWindowViewModelFactory : IMainWindowViewModelFactory
     {

@@ -21,4 +21,10 @@
       </ApplicationDefinition>
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="Views\MainWindow.Events.xaml.cs">
+        <DependentUpon>MainWindow.xaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

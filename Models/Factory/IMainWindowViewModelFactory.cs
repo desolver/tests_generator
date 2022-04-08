@@ -1,4 +1,6 @@
-namespace TestsGenerator.ViewModels.Factory
+using TestsGenerator.ViewModels;
+
+namespace TestsGenerator.Models.Factory
 {
     public interface IMainWindowViewModelFactory
     {

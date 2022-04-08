@@ -23,7 +23,7 @@ namespace TestsGenerator.ViewModels
             => new(obj =>
                 {
                     if (obj is CreateTestViewModel newTest)
-                        NewTestAdded.Invoke(newTest);
+                        NewTestAdded?.Invoke(newTest);
                 },
                 _ => true);
 
