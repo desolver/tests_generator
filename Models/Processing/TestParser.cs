@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FluentResults;
+using TestsGenerator.Extensions;
 
 namespace TestsGenerator.Models.Processing
 {
@@ -27,9 +28,16 @@ namespace TestsGenerator.Models.Processing
 
             var lines = test
                 .Split(new[] {'\n', '\r'}, StringSplitOptions.RemoveEmptyEntries)
-                .Select(s => s.Trim());
+                .Select(s => s.Trim())
+                .Where(s => !s.IsNullOrEmpty())
+                .ToArray();
 
-            var text = "Вопрос без текста";
+            var text = lines
+                .Where(line => !line.StartsWith(correctAnswerPrefix) && !line.StartsWith(wrongAnswerPrefix))
+                .JoinStrings("\r\n");
+
+            if (text.IsNullOrEmpty())
+                text = "Вопрос без текста";
 
             foreach (var line in lines)
             {
@@ -38,20 +46,16 @@ namespace TestsGenerator.Models.Processing
                 var lineIsQuestionText = !isCorrectAnswer && !isWrongAnswer;
 
                 if (lineIsQuestionText)
-                {
-                    text = line;
-                }
-                else
-                {
-                    var answerText = line
-                        .TrimStart(
-                            isCorrectAnswer
-                                ? correctAnswerPrefix
-                                : wrongAnswerPrefix)
-                        .TrimStart();
+                    continue;
 
-                    answers.Add(new Answer(answerText, isCorrectAnswer));
-                }
+                var answerText = line
+                    .TrimStart(
+                        isCorrectAnswer
+                            ? correctAnswerPrefix
+                            : wrongAnswerPrefix)
+                    .TrimStart();
+
+                answers.Add(new Answer(answerText, isCorrectAnswer));
             }
 
             return new Question(id, text, answers);
